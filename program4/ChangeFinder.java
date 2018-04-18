@@ -1,7 +1,7 @@
 /*
  * Author: Christopher Miller, Connor Morrison
  * Date: 04/13/18
- * Overview: Uses a greedy algorithm to return a array of change.
+ * Overview: Uses dynamic programming to return a array of change.
  */
 
 package program4;
@@ -13,7 +13,7 @@ public final class ChangeFinder {
 
 	public static int[] getChange(int change, int[]coins) {
 		ArrayList<Integer> changeList = new ArrayList<Integer>(); 
-		if(change == 0) {
+		if(change == 0 || coins.length == 0) {
 			throw new IllegalArgumentException("No change is needed from 0 cents");
 		}
 		while(change != 0) {
@@ -43,4 +43,7 @@ public final class ChangeFinder {
 		return list;
 	}
 
+	public static int[] getChange(int change, int[]coins, int[]changeList) {
+		
+	}
 }

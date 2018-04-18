@@ -1,7 +1,7 @@
 /*
  * Author: Christopher Miller, Connor Morrison
  * Date: 04/13/18
- * Overview: Uses a greedy algorithm to return a array of change. 
+ * Overview: Tests the use of dynamic programming to return a array of change. 
  */
 
 package program4;
@@ -47,8 +47,8 @@ class CoinTest {
 	
 	@Test
 	void testNoCoins() {
-		int change = 0;
-		int coins[] = {1,5,12,25};
+		int change = 12;
+		int coins[] = {};
 		Exception e = assertThrows(IllegalArgumentException.class, () -> {ChangeFinder.getChange(change,coins); });
 		assertEquals("No change is needed from 0 cents", e.getMessage());
 	}
