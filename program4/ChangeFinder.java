@@ -16,34 +16,37 @@ public final class ChangeFinder {
 		if(change == 0 || coins.length == 0) {
 			throw new IllegalArgumentException("No change is needed from 0 cents");
 		}
-		while(change != 0) {
-			if(change >= coins[3])
-			{
-				changeList.add(coins[3]);
-				change -=coins[3];
-			}
-			else if(change >= coins[2]) {
-				changeList.add(coins[2]);
-				change -=coins[2];
-			}
-			else if(change >= coins[1]) {
-				changeList.add(coins[1]);
-				change -=coins[1];
-			}
-			else if(change >= coins[0]) {
-				changeList.add(coins[0]);
-				change -=coins[0];
-			}
-		}
-		int list[] = new int[changeList.size()];
-		for(int i=0; i<changeList.size(); i++){
-			list[i] = changeList.get(i).intValue();
-		}
-		
-		return list;
+		int[] changeSolutions = new int[change+2];
+		changeSolutions[0] = 0;
+		changeSolutions[1] = 1;
+		changeSolutions = getChangeSolutions(change, 2, coins, changeSolutions);
+		int[] minCoinList = new int[changeSolutions[change]];
+		return getCoinList(change, coins, changeSolutions, minCoinList);
 	}
 
-	public static int[] getChange(int change, int[]coins, int[]changeList) {
-		
+	public static int[] getChangeSolutions(int change, int start, int[]coins, int[]changeList) {
+		int minCoins = change;
+		for(int coin : coins) {
+			if(start-coin>=0 && changeList[start-coin]+1<minCoins) {
+				minCoins = changeList[start-coin]+1;
+			}
+		}
+		changeList[start] = minCoins;
+		if(changeList[change] ==0) {
+			return(getChangeSolutions(change, start+1, coins, changeList));
+		}
+		else {
+			return changeList;
+		}
+	}
+	
+	public static int[] getCoinList(int change, int[]coins, int[]changeSolutions, int[] minCoinList) {
+		int minCoins = change;
+		int minCoin = 100;
+		for(int coin : coins) {
+			if(start-coin>=0 && changeList[start-coin]+1<minCoins) {
+				minCoins = changeList[start-coin]+1;
+			}
+		}
 	}
 }
