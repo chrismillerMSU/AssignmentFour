@@ -7,12 +7,10 @@
 package program4;
 
 
-import java.util.ArrayList;
 
 public final class ChangeFinder {
 
 	public static int[] getChange(int change, int[]coins) {
-		ArrayList<Integer> changeList = new ArrayList<Integer>(); 
 		if(change == 0 || coins.length == 0) {
 			throw new IllegalArgumentException("No change is needed from 0 cents");
 		}
@@ -21,7 +19,7 @@ public final class ChangeFinder {
 		changeSolutions[1] = 1;
 		changeSolutions = getChangeSolutions(change, 2, coins, changeSolutions);
 		int[] minCoinList = new int[changeSolutions[change]];
-		return getCoinList(change, coins, changeSolutions, minCoinList);
+		return getCoinList(change, 0, coins, changeSolutions, minCoinList);
 	}
 
 	public static int[] getChangeSolutions(int change, int start, int[]coins, int[]changeList) {
@@ -40,13 +38,29 @@ public final class ChangeFinder {
 		}
 	}
 	
-	public static int[] getCoinList(int change, int[]coins, int[]changeSolutions, int[] minCoinList) {
+	public static int[] getCoinList(int change, int count, int[]coins, int[]changeSolutions, int[] minCoinList) {
 		int minCoins = change;
 		int minCoin = 100;
 		for(int coin : coins) {
-			if(start-coin>=0 && changeList[start-coin]+1<minCoins) {
-				minCoins = changeList[start-coin]+1;
+			if(change-coin>=0 && changeSolutions[change-coin]+1<minCoins) {
+				minCoins = changeSolutions[change-coin]+1;
+				minCoin = coin;
 			}
+		}
+		change -= minCoin;
+		minCoinList[count] = minCoin;
+		count++;
+		if(change==0) {
+			int[] realMinCoin = new int[count];
+			count--;
+			for(int coin: minCoinList) {
+				realMinCoin[count] = coin;
+				count--;
+			}
+			return realMinCoin;
+		}
+		else {
+			return getCoinList(change, count, coins, changeSolutions, minCoinList);
 		}
 	}
 }
